@@ -30,7 +30,7 @@ def train_tokenizer(
     min_frequency: int = 2,
     glob_pattern: str = "*.txt",
 ) -> None:
-    """Train a ByteLevelBPETokenizer and save artefacts.
+    """Train a ByteLevelBPETokenizer and save artifacts.
 
     Parameters
     ----------

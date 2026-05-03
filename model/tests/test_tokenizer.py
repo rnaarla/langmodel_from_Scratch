@@ -3,7 +3,7 @@
 These tests use the HuggingFace ``tokenizers`` library's ByteLevel BPE tokenizer
 that the project trains in ``tokenizer/train_tokenizer.py``.
 
-When the trained tokenizer artefacts don't exist yet (fresh CI clone), the tests
+When the trained tokenizer artifacts don't exist yet (fresh CI clone), the tests
 fall back to a minimal in-memory tokenizer trained on a tiny corpus so that CI
 always passes.
 """
@@ -59,7 +59,7 @@ def _build_tiny_tokenizer():
 
 @pytest.fixture(scope="module")
 def tokenizer():
-    """Load from artefacts if available, else build a tiny in-memory tokenizer."""
+    """Load from artifacts if available, else build a tiny in-memory tokenizer."""
     vocab_file = ARTIFACTS_DIR / "vocab.json"
     merges_file = ARTIFACTS_DIR / "merges.txt"
 

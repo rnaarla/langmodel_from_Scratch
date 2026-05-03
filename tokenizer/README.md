@@ -1,6 +1,6 @@
 # Tokenizer
 
-This directory contains the tokenizer training script and, after training, the artefact files
+This directory contains the tokenizer training script and, after training, the artifact files
 (`vocab.json`, `merges.txt`) that the rest of the pipeline depends on.
 
 ---
@@ -62,7 +62,7 @@ ids = tokenizer.encode("Привет мир").ids  # Russian: check non-Latin co
 ## Enterprise Considerations
 
 - **Versioning:** Commit `tokenizer/artifacts/` under version control or store in your
-  artefact registry alongside the model checkpoint.  A model checkpoint is meaningless
+  artifact registry alongside the model checkpoint.  A model checkpoint is meaningless
   without the exact tokenizer it was trained with.
 - **Vocabulary expansion:** Adding tokens post-hoc requires careful embedding surgery and
   re-training of the embedding layer — plan vocabulary size carefully upfront.

@@ -24,7 +24,7 @@ def save_checkpoint(
     """Persist training state to disk.
 
     Saves a ``checkpoint_step_{step:07d}.pt`` file containing model weights,
-    optimiser state, scheduler state, and metadata.
+    optimizer state, scheduler state, and metadata.
 
     Parameters
     ----------

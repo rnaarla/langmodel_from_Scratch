@@ -1,10 +1,10 @@
 output "artifact_bucket_name" {
-  description = "Name of the S3 bucket for model artefacts."
+  description = "Name of the S3 bucket for model artifacts."
   value       = aws_s3_bucket.artifacts.bucket
 }
 
 output "artifact_bucket_arn" {
-  description = "ARN of the S3 artefact bucket."
+  description = "ARN of the S3 artifact bucket."
   value       = aws_s3_bucket.artifacts.arn
 }
 

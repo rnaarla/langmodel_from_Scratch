@@ -17,7 +17,7 @@ Prefect, or CI/CD).
 langmodel_from_Scratch/
 ├── config/            ← YAML hyperparameter configs (model, tokenizer, data mixture)
 ├── data/              ← Cleaning, dedup, PII scrub, memmap sharding
-├── tokenizer/         ← BPE tokenizer training & artefacts
+├── tokenizer/         ← BPE tokenizer training & artifacts
 ├── model/             ← Architecture, training loop, checkpointing
 ├── eval/              ← Perplexity, lm-evaluation-harness wrapper
 ├── alignment/         ← SFT, DPO/RLHF
@@ -28,7 +28,7 @@ langmodel_from_Scratch/
 └── docs/              ← This file + model card + datasheet templates
 ```
 
-**Enterprise note:** Version every stage artefact (dataset hash, tokenizer hash, model checkpoint
+**Enterprise note:** Version every stage artifact (dataset hash, tokenizer hash, model checkpoint
 SHA) in MLflow or W&B so any production incident can be traced back to the exact training run
 and data snapshot.
 

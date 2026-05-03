@@ -72,7 +72,7 @@ helm install llm-api helm/llm-inference-chart/ \
 |----------|---------|-------------|
 | `VLLM_BASE_URL` | `""` | If set, forward requests to vLLM at this URL |
 | `MODEL_DIR` | `checkpoints/final` | Path to local model checkpoint directory |
-| `TOKENIZER_DIR` | `tokenizer/artifacts` | Path to tokenizer artefacts |
+| `TOKENIZER_DIR` | `tokenizer/artifacts` | Path to tokenizer artifacts |
 | `MAX_NEW_TOKENS` | `256` | Default generation length cap |
 
 ---

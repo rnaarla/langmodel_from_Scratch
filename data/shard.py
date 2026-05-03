@@ -30,14 +30,14 @@ DEFAULT_SHARD_SIZE = 500_000_000  # tokens per shard
 
 
 def load_tokenizer(tokenizer_dir: Path):
-    """Load the ByteLevel BPE tokenizer from artefacts."""
+    """Load the ByteLevel BPE tokenizer from artifacts."""
     from tokenizers import ByteLevelBPETokenizer  # noqa: PLC0415
 
     vocab = tokenizer_dir / "vocab.json"
     merges = tokenizer_dir / "merges.txt"
     if not (vocab.exists() and merges.exists()):
         raise FileNotFoundError(
-            f"Tokenizer artefacts not found in {tokenizer_dir}. "
+            f"Tokenizer artifacts not found in {tokenizer_dir}. "
             "Run `make tokenizer` first."
         )
     return ByteLevelBPETokenizer(str(vocab), str(merges))

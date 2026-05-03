@@ -25,7 +25,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "GPU memory utilisation > 90%"
+          summary: "GPU memory utilization > 90%"
           description: "GPU {{ $labels.gpu }} memory at {{ $value | humanizePercentage }}. Risk of OOM."
 
       - alert: ModelServerDown

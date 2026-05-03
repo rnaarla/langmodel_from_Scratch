@@ -100,7 +100,7 @@ tf-apply: ## Apply Terraform infrastructure changes
 	cd terraform && terraform apply
 
 ## ── Cleanup ──────────────────────────────────────────────────────────────────
-clean: ## Remove cached artefacts and temporary files
+clean: ## Remove cached artifacts and temporary files
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -name "*.pyc" -delete 2>/dev/null || true
 	rm -rf .pytest_cache .ruff_cache

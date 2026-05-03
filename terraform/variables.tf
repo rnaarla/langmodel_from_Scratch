@@ -11,7 +11,7 @@ variable "environment" {
 }
 
 variable "artifact_bucket_name" {
-  description = "Globally unique S3 bucket name for model artefacts and datasets."
+  description = "Globally unique S3 bucket name for model artifacts and datasets."
   type        = string
   # Override via: terraform apply -var='artifact_bucket_name=my-llm-artifacts-2024'
 }
