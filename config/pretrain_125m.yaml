@@ -1,0 +1,30 @@
+# LLM from Scratch — Pipeline Configuration
+
+## Pre-train 125M model
+model:
+  vocab_size: 32000
+  d_model: 768
+  n_layers: 12
+  n_heads: 12
+  n_kv_heads: 12
+  d_ff: 3072
+  max_seq_len: 2048
+  rope_theta: 10000.0
+  tie_embeddings: true
+  dropout: 0.0
+
+training:
+  batch_size: 32          # per GPU
+  total_steps: 500000
+  warmup_steps: 2000
+  peak_lr: 3.0e-4
+  min_lr_ratio: 0.1
+  weight_decay: 0.1
+  grad_clip: 1.0
+  bf16: true
+  log_interval: 100
+  checkpoint_interval: 2000
+
+data:
+  data_dir: data/tokenized
+  seq_len: 2048            # must match max_seq_len

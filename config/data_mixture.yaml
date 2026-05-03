@@ -1,0 +1,36 @@
+# Data mixture weights for pre-training
+# Weights are sampling probabilities and must sum to 1.0.
+# Adjust ratios based on your domain and licensing constraints.
+
+mixture:
+  web:           0.60    # Common Crawl / FineWeb / RefinedWeb
+  code:          0.15    # The Stack, GitHub permissive licenses
+  books:         0.10    # Books3, PG-19, licensed corpora
+  wikipedia:     0.05    # Wikipedia (all languages, weighted)
+  arxiv:         0.05    # Scientific papers
+  stackexchange: 0.05    # Q&A, technical knowledge
+
+# Per-domain quality filters (applied in data/prepare.py)
+domain_filters:
+  web:
+    min_length: 200
+    max_length: 100000
+    language: en
+    dedup_threshold: 0.85
+  code:
+    min_length: 50
+    max_length: 500000
+    language: any         # multi-language source code
+    dedup_threshold: 0.70
+  books:
+    min_length: 1000
+    max_length: 5000000
+    language: en
+    dedup_threshold: 0.95
+
+# DVC remote (configure in .dvc/config or via environment)
+versioning:
+  tool: dvc
+  remote: s3://your-bucket/datasets
+  # Lock the dataset version used for each training run via:
+  #   git rev-parse HEAD > dataset_sha.txt

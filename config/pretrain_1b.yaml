@@ -1,0 +1,35 @@
+# LLM from Scratch — Pre-train 1B model configuration
+
+model:
+  vocab_size: 32000
+  d_model: 2048
+  n_layers: 24
+  n_heads: 16
+  n_kv_heads: 8           # GQA: 2× KV compression
+  d_ff: 5632
+  max_seq_len: 4096
+  rope_theta: 10000.0
+  tie_embeddings: true
+  dropout: 0.0
+
+training:
+  batch_size: 16          # per GPU (use gradient accumulation for effective larger batch)
+  gradient_accumulation_steps: 4
+  total_steps: 1000000
+  warmup_steps: 4000
+  peak_lr: 2.0e-4
+  min_lr_ratio: 0.1
+  weight_decay: 0.1
+  grad_clip: 1.0
+  bf16: true
+  log_interval: 100
+  checkpoint_interval: 2000
+
+data:
+  data_dir: data/tokenized
+  seq_len: 4096
+
+distributed:
+  # Launch: torchrun --nnodes=4 --nproc_per_node=8 model/train.py --config config/pretrain_1b.yaml
+  strategy: fsdp          # fsdp | ddp | deepspeed
+  fsdp_sharding: full     # full | hybrid | no

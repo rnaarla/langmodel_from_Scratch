@@ -1,0 +1,52 @@
+name: Release — Model Card & Artifact Publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    name: Publish model card and artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: write    # to create GitHub Release
+      id-token: write    # for OIDC artifact signing (future)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml jinja2
+
+      - name: Generate model card
+        run: |
+          python - <<'EOF'
+          import yaml, pathlib, datetime
+
+          tag = "${{ github.ref_name }}"
+          card = pathlib.Path("docs/model_card_template.md").read_text()
+          card = card.replace("{{VERSION}}", tag)
+          card = card.replace("{{DATE}}", datetime.date.today().isoformat())
+          pathlib.Path(f"MODEL_CARD_{tag}.md").write_text(card)
+          print(f"Model card generated for {tag}")
+          EOF
+
+      - name: Upload artifacts to S3 (placeholder)
+        run: |
+          echo "Placeholder: upload checkpoints + model card to artifact store"
+          echo "e.g.: aws s3 cp MODEL_CARD_${{ github.ref_name }}.md s3://your-bucket/releases/"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: MODEL_CARD_${{ github.ref_name }}.md
+          generate_release_notes: true
