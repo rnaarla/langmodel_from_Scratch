@@ -1,0 +1,93 @@
+# Default values for llm-inference-chart.
+# Override with: helm install my-release ./helm/llm-inference-chart -f custom-values.yaml
+
+replicaCount: 2
+
+image:
+  repository: ghcr.io/rnaarla/langmodel_from_scratch/llm-inference
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+  hosts:
+    - host: llm-api.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: llm-api-tls
+      hosts:
+        - llm-api.example.com
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "2"
+    # Uncomment for GPU:
+    # nvidia.com/gpu: "1"
+  limits:
+    memory: "8Gi"
+    cpu: "4"
+    # nvidia.com/gpu: "1"
+
+env:
+  VLLM_BASE_URL: ""           # Set to vLLM server URL to proxy requests
+  MODEL_DIR: "/models/final"
+  TOKENIZER_DIR: "/models/tokenizer"
+  MAX_NEW_TOKENS: "256"
+
+# Volume mounts for model weights (use PVC or S3 CSI driver in production)
+volumes: []
+volumeMounts: []
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  # KEDA ScaledObject (configure separately for queue-length-based scaling)
+
+nodeSelector: {}
+  # Uncomment for GPU nodes:
+  # cloud.google.com/gke-accelerator: nvidia-tesla-a100
+
+tolerations: []
+  # - key: "nvidia.com/gpu"
+  #   operator: "Exists"
+  #   effect: "NoSchedule"
+
+affinity: {}
+
+# Liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8000
+  initialDelaySeconds: 30
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 10

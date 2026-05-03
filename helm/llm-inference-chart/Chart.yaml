@@ -1,0 +1,16 @@
+apiVersion: v2
+name: llm-inference-chart
+description: Helm chart for deploying the LLM inference gateway (FastAPI + vLLM)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - llm
+  - inference
+  - fastapi
+  - vllm
+home: https://github.com/rnaarla/langmodel_from_Scratch
+sources:
+  - https://github.com/rnaarla/langmodel_from_Scratch
+maintainers:
+  - name: LLM Pipeline Team

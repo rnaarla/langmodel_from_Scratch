@@ -1,0 +1,20 @@
+# Tokenizer training configuration
+
+algorithm: bytebpe          # bytebpe | sentencepiece_bpe | sentencepiece_unigram
+vocab_size: 32000
+min_frequency: 2
+input_dir: data/cleaned
+output_dir: tokenizer/artifacts
+glob_pattern: "*.txt"
+
+special_tokens:
+  - "<pad>"
+  - "<bos>"
+  - "<eos>"
+  - "<unk>"
+
+# Validation thresholds
+validation:
+  target_bytes_per_token_min: 3.0
+  target_bytes_per_token_max: 5.0
+  sample_chars: 10000

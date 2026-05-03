@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# LLM-from-scratch specific
+data/raw/
+data/cleaned/
+data/tokenized/
+tokenizer/artifacts/
+checkpoints/
+mlruns/
+wandb/
+*.bin
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform/.terraform.lock.hcl
+model/tests/__pycache__/
+

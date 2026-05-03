@@ -1,0 +1,59 @@
+name: Nightly Eval — lm-evaluation-harness
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # 02:00 UTC nightly
+  workflow_dispatch:
+    inputs:
+      checkpoint_path:
+        description: "Path / URI to checkpoint (leave blank to use latest)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    name: Run lm-eval-harness
+    runs-on: ubuntu-latest
+    # TODO: Replace with a GPU-enabled runner (e.g. self-hosted or GitHub GPU runner)
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install lm-eval transformers torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Download latest checkpoint
+        # TODO: Replace with your artifact store (S3/GCS/Hugging Face Hub)
+        run: |
+          echo "Placeholder: download checkpoint from artifact store"
+          echo "e.g.: aws s3 cp s3://your-bucket/checkpoints/latest.pt checkpoints/latest.pt"
+
+      - name: Run lm-eval-harness (placeholder)
+        run: |
+          echo "Placeholder: run lm_eval on downloaded checkpoint"
+          echo "Example command:"
+          echo "  lm_eval --model hf \\"
+          echo "    --model_args pretrained=checkpoints/latest \\"
+          echo "    --tasks mmlu,hellaswag,arc_challenge,gsm8k \\"
+          echo "    --batch_size 16 --output_path eval/results.json"
+
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-${{ github.run_id }}
+          path: eval/results.json
+          if-no-files-found: warn

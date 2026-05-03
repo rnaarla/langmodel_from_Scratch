@@ -1,0 +1,38 @@
+groups:
+  - name: llm-api-alerts
+    rules:
+      - alert: HighP99Latency
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket{job="llm-api"}[5m])) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High P99 latency on LLM API ({{ $value }}s)"
+          description: "P99 latency exceeds 10s for 5 minutes. Check GPU utilization and batch queue."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{job="llm-api",status=~"5.."}[5m]) / rate(http_requests_total{job="llm-api"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LLM API error rate > 5%"
+          description: "5xx error rate is {{ $value | humanizePercentage }}. Check model server logs."
+
+      - alert: GPUMemoryHigh
+        expr: DCGM_FI_DEV_FB_USED / DCGM_FI_DEV_FB_TOTAL > 0.90
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "GPU memory utilization > 90%"
+          description: "GPU {{ $labels.gpu }} memory at {{ $value | humanizePercentage }}. Risk of OOM."
+
+      - alert: ModelServerDown
+        expr: up{job="llm-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LLM model server is down"
+          description: "The LLM API target {{ $labels.instance }} has been down for 1 minute."
